@@ -32,7 +32,7 @@ mutation {
 Logging in using your account:<br>
 -------------------------------------------------
 mutation {
-  login(input: { username: "your_email", password: "your_password" }) {
+  loginuser(input: { username: "your_email", password: "your_password" }) {
     access_token
     expires_in
     token_type
