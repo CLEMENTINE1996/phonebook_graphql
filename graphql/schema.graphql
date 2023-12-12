@@ -1,0 +1,86 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-01-01 13:00:00`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+type Phonebook {
+    id: Int
+    name: String
+    contact_no: String
+}
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+type TokenResponse {
+  status: String!
+  tokens: Tokens
+}
+type Tokens {
+  token_type: String!
+  expires_in: Int!
+  access_token: String!
+  refresh_token: String!
+  user: User!
+}
+type AuthPayload {
+    access_token: String!
+    refresh_token: String!
+    expires_in: Int!
+    token_type: String!
+    user: User!
+}
+type ForgotPasswordResponse {
+  status: String!
+  message: String
+}
+type LogoutResponse {
+  status: String!
+  message: String
+}
+type ResponseData {
+    message: String
+    status_code: String
+    item: Phonebook
+}
+
+"---basic query for phonebook table"
+type Query {
+  listContacts: [Phonebook] @guard @all
+  viewContact(id:ID @eq): Phonebook @guard @find
+}
+
+type Mutation {
+
+  "---mutations for user"
+  loginuser (input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
+  userRefreshToken(input: RefreshTokenInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
+  userLogout: LogoutResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Logout@resolve")
+  userForgotPassword(input: ForgotPasswordInput! @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ForgotPassword@resolve")
+  updateUserForgottenPassword(input: NewPasswordWithCodeInput! @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
+  userRegister(input: RegisterInput @spread): TokenResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Register@resolve")
+
+
+  "---create a contact"
+  createContact(
+       name: String, 
+       contact_no: String
+   ): ResponseData! @guard @field(resolver: "App\\GraphQL\\Mutations\\CreateContact")
+
+  "---update a contact"
+  updateContact(
+       id: ID!,
+       name: String, 
+       contact_no: String
+   ): ResponseData! @guard @field(resolver: "App\\GraphQL\\Mutations\\UpdateContact")
+
+  "---delete a contact"
+  deleteContact(
+       id: ID!
+   ): ResponseData! @guard @field(resolver: "App\\GraphQL\\Mutations\\DeleteContact")
+}
+
