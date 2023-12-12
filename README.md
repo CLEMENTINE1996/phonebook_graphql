@@ -5,7 +5,7 @@ for a simple phonebook application.
 Commands:<br>
 
 Register your user account:<br>
-
+-------------------------------------------------
 mutation {
   userRegister(
     input: {
@@ -27,10 +27,10 @@ mutation {
     }
   }
 }
-
+-------------------------------------------------
 
 Logging in using your account:<br>
-
+-------------------------------------------------
 mutation {
   login(input: { username: "your_email", password: "your_password" }) {
     access_token
@@ -43,13 +43,13 @@ mutation {
     }
   }
 }
-
+-------------------------------------------------
 "Note: make sure to copy and save your access token that has been generated after logging in before executing another command."<br>
 
 
 "Note: in order for the other commands to work, add the '{ "Authorization": "Bearer {YOUR_ACCESS_TOKEN}" to the header.'<br>
 1. For viewing the list of all saved contacts.
-
+-------------------------------------------------
 {
   listContacts{
     id
@@ -57,7 +57,7 @@ mutation {
     contact_no
   }
 }
-
+-------------------------------------------------
 2. For viewing specific contact.
 
 {
@@ -67,9 +67,9 @@ mutation {
     contact_no
   }
 }
-
+-------------------------------------------------
 3. For creating new contact
-
+-------------------------------------------------
 mutation {
   createContact(name: "NAME", contact_no: "NUMBER") {
     message
@@ -81,9 +81,9 @@ mutation {
     }
   }
 }
-
+-------------------------------------------------
 4. For updating a contact
-
+-------------------------------------------------
 mutation {
   updateContact(id: ID, name: "NAME", contact_no: "NUMBER") {
     message
@@ -95,9 +95,9 @@ mutation {
     }
   }
 }
-
+-------------------------------------------------
 5. For deleting a contact
-
+-----------------------------------------------
 mutation {
   deleteContact(id: ID) {
     message
@@ -109,7 +109,7 @@ mutation {
     }
   }
 }
-
+-------------------------------------------------
 "Note: you can use/import the phonebook database (phonebookdb.sql) located on database folder or you can use the migration."
 
 
