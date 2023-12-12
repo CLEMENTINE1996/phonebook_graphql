@@ -16,7 +16,7 @@ class DeleteContact
         if (!$item) {
             return [
                 'message' => 'The contact wit an id of "'.$id.'" cannot be found!',
-                'status_code' => 404,
+                'status_code' => 409,
             ];
         }
 
